@@ -9,5 +9,9 @@ Keyboard Shortcuts for Google Search
 
 Installation
 ============
-1. Clone the git repository
-2. In the Chrome extensions window, select "Load unpacked extension" and select the `GoogleShortcuts` directory.
+1. Install from the Chrome Webstore: LINK
+
+
+2. Manual installation
+    1. Clone the git repository
+    2. In the Chrome extensions window, select "Load unpacked extension" and select the `GoogleShortcuts` directory.
