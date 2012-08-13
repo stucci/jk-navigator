@@ -2,10 +2,43 @@
 
 (function() {
 
+    var opts = {
+        'google': {
+            selectors: ['h3.r:nth(*) a'],
+            allowSubdomains: false
+        },
 
-    function get_main_domain(domain) {
+        'news.ycombinator': {
+            selectors: ['td.title a:nth(*)']
+        },
+        'quora': {
+            selectors: ['div.pagedlist_item:not(.pagedlist_hidden) a.question_link:nth(*)']
+        },
+        'reddit': {
+            selectors: ['#siteTable div.entry:nth(*) a.title']
+        },
+        'amazon': {
+            selectors: ['h3.newaps:nth(*)>a', 'div.data:nth(*) h3.title a.title']
+        },
+        'ebay': {
+            selectors: ['div.ittl:nth(*) a']
+        },
+        'yelp': {
+            selectors: ['div.businessresult:nth(*) h4.itemheading a']
+        },
+        'craigslist': {
+            selectors: ['p.row:nth(*)>a']
+        },
+    }
+
+    var group_selector = null;
+    var site_opts = null;
+    var site = null;
+
+    function set_domain_opts(domain) {
         var parts = domain.split('.');
         var copy = parts.splice();
+
         if (parts[0] == 'www') {
             parts = parts.splice(1);
         }
@@ -14,43 +47,21 @@
         else
             parts.splice(-1);
 
-        return parts.join('.');
+        var i = 0;
+        while (parts.length > 0) {
+            main_domain = parts.join('.');
+            if (opts[main_domain] && (i == 0 || opts[main_domain].allowSubdomains !== false))
+            {
+                site = main_domain;
+                site_opts = opts[main_domain];
+                return;
+            }
+            parts = parts.splice(1);
+            i++;
+        }
     }
 
-
-    var opts = {
-        'google': {
-            selectors: ['h3.r:nth(*) a']
-        },
-
-        'news.ycombinator': {
-            selectors: ['td.title a:nth(*)']
-        },
-        'quora': {
-            selectors: ['a.question_link:nth(*)']
-        },
-        'reddit': {
-            selectors: ['#siteTable div.entry:nth(*) a.title']
-        },
-        'amazon': {
-            selectors: ['h3.newaps:nth(*) a', 'div.data:nth(*) h3.title a.title']
-        },
-        'ebay': {
-            selectors: ['div.ittl:nth(*) a']
-        },
-        'yelp': {
-            selectors: ['div.businessresult:nth(*) h4.itemheading a']
-        },
-        'sfbay.craigslist': {
-            selectors: ['p.row:nth(*) a']
-        },
-    }
-
-    var site_opts = null;
-    var group_selector = null;
-    var main_domain = get_main_domain(document.domain);
-    if (main_domain) 
-        site_opts = opts[main_domain];
+    set_domain_opts(document.domain);
     
     function active_selector(idx) {
         return group_selector.replace(':nth(*)', ':nth('+idx+')')
@@ -90,11 +101,15 @@
     $(function() {
         if (!site_opts) return;
         start();
-        //google is special
-        document.getElementById('main').addEventListener("DOMSubtreeModified", function () {
-            start();
-            
-        });
+        if (site == 'google') {
+            //google is special
+            var main = document.getElementById('main');
+            if (main) {
+                main.addEventListener("DOMSubtreeModified", function () {
+                    start();
+                });
+            }
+        }
     });
 
 
