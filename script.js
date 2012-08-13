@@ -4,10 +4,8 @@
 
 
     function get_main_domain(domain) {
-        console.log(domain);
         var parts = domain.split('.');
         var copy = parts.splice();
-        console.log(copy);
         if (parts[0] == 'www') {
             parts = parts.splice(1);
         }
@@ -63,7 +61,6 @@
     var select = function(focus) {
         $(group_selector.replace(':nth(*)', '')).css('background-color', 'inherit');
         var link = $(active_selector(idx));
-        console.log(link);
         link.css('background-color', '#fcc');
         if (focus) {link.focus(); }
         return link;
@@ -76,17 +73,12 @@
         $(site_opts.selectors).each(function(n, selector) {
             if ($(selector.replace(':nth(*)', ':nth(0)')).length) {
                 group_selector = selector;
-                console.log(selector);
                 return false; // break
             }
         });
         if (!group_selector)
             return;
         var newNode = $(active_selector(0));
-        console.log('newNode');
-        console.log(newNode);
-        console.log('node');
-        console.log(node)
         if (!node || (node.attr('href') != newNode.attr('href'))) {
             idx = 0;
             select(true);
