@@ -95,6 +95,7 @@
                     result_links.push($(link).attr('href'));
                 });
                 localStorage.result_links = JSON.stringify(result_links);
+                localStorage.start_page = location.href;
                 return false; // break
             }
         });
@@ -192,6 +193,18 @@
     
         key('o', function(ev) {
             open_link(ev);
+        });
+        key('i', function(ev) {
+            if (group_selector) {
+                if (localStorage.idx > 0) {
+                    localStorage.idx=0;
+                    select(true);
+                }
+                ev.stopPropagation();
+            }
+            else {
+                location.href = localStorage.start_page; 
+            }
         });
     }        
 
