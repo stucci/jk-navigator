@@ -27,10 +27,12 @@
             selectors: ['div.businessresult:nth(*) h4.itemheading a']
         },
         'craigslist': {
-            selectors: ['p.row:nth(*)>a']
+            selectors: ['p.row:nth(*)>a'],
+            paginator_selector: 'h4>span:last-of-type>a'
         },
         'linkedin': {
-            selectors: ['li.vcard.expanded-view:nth(*) h2  a'] 
+            selectors: ['li.vcard:nth(*)>div>h2>a'],
+            paginator_selector: '.paginator-next'
         }
     }
 
@@ -146,6 +148,12 @@
                 if (localStorage.idx < $(group_selector.replace(':nth(*)', '')).length-1) {
                     localStorage.idx++;
                     select(true);
+                }
+                else {
+                    if ($(site_opts.paginator_selector)) {
+                        localStorage.idx = 0; 
+                        location.href = $(site_opts.paginator_selector).attr('href');
+                    }
                 }
                 ev.stopPropagation();
                 }
