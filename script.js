@@ -72,7 +72,6 @@
         return group_selector.replace(':nth(*)', ':nth('+idx+')')
     }
 
-    console.log(localStorage.idx);
     if (!localStorage.idx)
         localStorage.idx = 0;
     var select = function(focus) {
@@ -86,7 +85,7 @@
     var node = null;
 
 
-    function start() {
+    function start(focusResult) {
         $(site_opts.selectors).each(function(n, selector) {
             var result_links_container = $(selector.replace(':nth(*)', ''));
             if (result_links_container.length) {
@@ -104,16 +103,14 @@
         if (!group_selector)
             return;
         var newNode = $(active_selector(localStorage.idx));
-        console.log('newNode');
-        console.log(newNode);
         if (!node || (node.attr('href') != newNode.attr('href'))) {
             if (!localStorage.idx) {
                 localStorage.idx = 0;
-                select(true);
+                select(focusResult);
                 node = newNode;
             }
             else {
-                select(true);
+                select(focusResult);
                 node = newNode;
             }
         }
@@ -122,13 +119,13 @@
 
     $(function() {
         if (!site_opts) return;
-        start();
+        start(true);
         if (site == 'google') {
             //google is special
             var main = document.getElementById('main');
             if (main) {
                 main.addEventListener("DOMSubtreeModified", function () {
-                    start();
+                    start(false);
                 });
             }
         }
@@ -180,25 +177,31 @@
             ev.stopPropagation();
             ev.preventDefault();
         });
-        key('⌘+return', function(ev) {
+        function open_link(ev, newWindow) {
             var link = select();
-            window.open(link.attr('href'));
-            ev.stopPropagation();
-            ev.preventDefault();
-        });
 
-        function open_link(ev) {
-            var link = select();
-            location.href = link.attr('href');
-            ev.stopPropagation();
-            ev.preventDefault();
-
+            // If no particular element is focused, open the selected link.
+            // Else, use the browser implementation to open the focused link
+            // which already does the right thing.
+            if (ev.target == document.body) {
+                if (newWindow) {
+                    window.open(link.attr('href'));
+                } else {
+                    location.href = link.attr('href');
+                }
+                ev.stopPropagation();
+                ev.preventDefault();
+            }
         }
 
         key('return', function(ev) {
-            open_link(ev);
+            open_link(ev, false);
         });
     
+        key('⌘+return', function(ev) {
+            open_link(ev, true);
+        });
+
         key('o', function(ev) {
             open_link(ev);
         });
