@@ -21,7 +21,7 @@
             selectors: ['h3.newaps:nth(*)>a', 'div.data:nth(*) h3.title a.title']
         },
         'ebay': {
-            selectors: ['div.ittl:nth(*) a']
+            selectors: ['div.ittl:nth(*) a', 'div.ttl:nth(*) a']
         },
         'yelp': {
             selectors: ['div.businessresult:nth(*) h4.itemheading a']
