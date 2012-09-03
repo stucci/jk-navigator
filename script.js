@@ -177,13 +177,13 @@
             ev.stopPropagation();
             ev.preventDefault();
         });
-        function open_link(ev, newWindow) {
+        function open_link(ev, newWindow, force) {
             var link = select();
 
             // If no particular element is focused, open the selected link.
             // Else, use the browser implementation to open the focused link
             // which already does the right thing.
-            if (ev.target == document.body) {
+            if (force || ev.target == document.body) {
                 if (newWindow) {
                     window.open(link.attr('href'));
                 } else {
@@ -203,8 +203,9 @@
         });
 
         key('o', function(ev) {
-            open_link(ev);
+            open_link(ev, false, true);
         });
+
         key('i', function(ev) {
             if (group_selector) {
                 if (localStorage.idx > 0) {
