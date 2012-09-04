@@ -4,9 +4,11 @@
 
     var opts = {
         'google': {
-            selectors: ['h3.r:nth(*) a'],
+            selectors: ['#ires>ol>li.g:nth(*) h3.r>a'],
             allowSubdomains: false,
-            search_selector: '#gbqfq'
+            search_selector: '#gbqfq',
+            paginator_selector_next: 'a#pnnext.pn',
+            paginator_selector_prev: 'a#pnprev.pn'
         },
 
         'news.ycombinator': {
@@ -19,29 +21,39 @@
         },
         'reddit': {
             selectors: ['#siteTable div.entry:nth(*) a.title'],
-            search_selector: 'form#search input'
+            search_selector: 'form#search input',
+            paginator_selector_next: 'p.nextprev a:last-of-type',
+            paginator_selector_prev: 'p.nextprev a:first-of-type'
         },
         'amazon': {
             selectors: ['h3.newaps:nth(*)>a', 'div.data:nth(*) h3.title a.title'],
-            search_selector: '#twotabsearchtextbox'
+            search_selector: '#twotabsearchtextbox',
+            paginator_selector_next: '#pagnNextLink',
+            paginator_selector_prev: '#pagnPrevLink'
         },
         'ebay': {
             selectors: ['div.ittl:nth(*) a', 'div.ttl:nth(*) a'],
-            search_selector: '#_fsb_nkw'
+            search_selector: '#_fsb_nkw',
+            paginator_selector_next: 'td.botpg-next a',
+            paginator_selector_prev: 'td.botpg-prev a'
+
         },
         'yelp': {
             selectors: ['div.businessresult:nth(*) h4.itemheading a'],
-            search_selector: '#find_desc'
+            search_selector: '#find_desc',
+            paginator_selector_next: '#pager_page_next',
+            paginator_selector_prev: '#pager_page_prev'
         },
         'craigslist': {
             selectors: ['p.row:nth(*)>a'],
             search_selector: '#query',
-            paginator_selector: 'h4>span:last-of-type>a'
+            paginator_selector_next: 'h4>span:last-of-type>a',
+            paginator_selector_prev: 'h4>span:first-of-type>a'
         },
         'linkedin': {
             selectors: ['li.vcard:nth(*)>div>h2>a'],
-            paginator_selector: '.paginator-next',
-            search_selector: '#keywords-search'
+            search_selector: '#keywords-search',
+            paginator_selector_next: '.paginator-next'
         }
     }
 
@@ -106,6 +118,9 @@
                 });
                 localStorage.result_links = JSON.stringify(result_links);
                 localStorage.start_page = location.href;
+                if (localStorage.idx == -1) {
+                    localStorage.idx = result_links.length-1;
+                }
                 return false; // break
             }
         });
@@ -126,6 +141,8 @@
         
     }
 
+    var lock = false;
+
     $(function() {
         if (!site_opts) return;
         start(true);
@@ -133,8 +150,13 @@
             //google is special
             var main = document.getElementById('main');
             if (main) {
+                //setTimeout(function() {
                 main.addEventListener("DOMSubtreeModified", function () {
-                    start(false);
+                    if (!lock) {
+                        lock = true;
+                        start(false);
+                        lock = false;
+                    }
                 });
             }
         }
@@ -143,7 +165,7 @@
 
 
     
-
+    //define what the different keystrokes do
 
     if(site_opts)
 
@@ -156,13 +178,13 @@
                     select(true);
                 }
                 else {
-                    if ($(site_opts.paginator_selector)) {
+                    if (site_opts.paginator_selector_next && $(site_opts.paginator_selector_next).length) {
                         localStorage.idx = 0; 
-                        location.href = $(site_opts.paginator_selector).attr('href');
+                        location.href = $(site_opts.paginator_selector_next).attr('href');
                     }
                 }
                 ev.stopPropagation();
-                }
+            }
             else { 
                 result_links = JSON.parse(localStorage.result_links);
 		        if (link = result_links[++localStorage.idx]) {
@@ -179,6 +201,13 @@
                 if (localStorage.idx > 0) {
                     localStorage.idx--;
                     select(true);
+                }
+                else {
+                    if (site_opts.paginator_selector_prev && $(site_opts.paginator_selector_prev).length) {
+                        localStorage.idx = -1; 
+                        location.href = $(site_opts.paginator_selector_prev).attr('href');
+                    }
+                     
                 }
                 ev.stopPropagation();
             }
