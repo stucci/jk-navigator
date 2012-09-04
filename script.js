@@ -162,15 +162,9 @@
         }
     });
 
-
-
-    
     //define what the different keystrokes do
-
-    if(site_opts)
-
+    if (site_opts)
     {
-
         key('j', function(ev) {
             if (group_selector) {
                 if (localStorage.idx < $(group_selector.replace(':nth(*)', '')).length-1) {
@@ -265,11 +259,9 @@
                 ev.stopPropagation();
             }
             else {
-                location.href = localStorage.start_page; 
+                location.href = localStorage.start_page;
             }
         });
-    }        
+    }
 
 })();
-
-
