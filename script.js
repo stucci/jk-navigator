@@ -5,34 +5,43 @@
     var opts = {
         'google': {
             selectors: ['h3.r:nth(*) a'],
-            allowSubdomains: false
+            allowSubdomains: false,
+            search_selector: '#gbqfq'
         },
 
         'news.ycombinator': {
-            selectors: ['td.title a:nth(*)']
+            selectors: ['td.title a:nth(*)'],
+            search_selector: 'center form input'
         },
         'quora': {
-            selectors: ['div.pagedlist_item:not(.pagedlist_hidden) a.question_link:nth(*)']
+            selectors: ['div.pagedlist_item:not(.pagedlist_hidden) a.question_link:nth(*)'],
+            search_selector: '.question_box.light'
         },
         'reddit': {
-            selectors: ['#siteTable div.entry:nth(*) a.title']
+            selectors: ['#siteTable div.entry:nth(*) a.title'],
+            search_selector: 'form#search input'
         },
         'amazon': {
-            selectors: ['h3.newaps:nth(*)>a', 'div.data:nth(*) h3.title a.title']
+            selectors: ['h3.newaps:nth(*)>a', 'div.data:nth(*) h3.title a.title'],
+            search_selector: '#twotabsearchtextbox'
         },
         'ebay': {
-            selectors: ['div.ittl:nth(*) a', 'div.ttl:nth(*) a']
+            selectors: ['div.ittl:nth(*) a', 'div.ttl:nth(*) a'],
+            search_selector: '#_fsb_nkw'
         },
         'yelp': {
-            selectors: ['div.businessresult:nth(*) h4.itemheading a']
+            selectors: ['div.businessresult:nth(*) h4.itemheading a'],
+            search_selector: '#find_desc'
         },
         'craigslist': {
             selectors: ['p.row:nth(*)>a'],
+            search_selector: '#query',
             paginator_selector: 'h4>span:last-of-type>a'
         },
         'linkedin': {
             selectors: ['li.vcard:nth(*)>div>h2>a'],
-            paginator_selector: '.paginator-next'
+            paginator_selector: '.paginator-next',
+            search_selector: '#keywords-search'
         }
     }
 
@@ -156,7 +165,13 @@
                 }
             else { 
                 result_links = JSON.parse(localStorage.result_links);
-                location.href = result_links[++localStorage.idx]
+		        if (link = result_links[++localStorage.idx]) {
+		            location.href = link;		
+		        }
+		        else {
+                   localStorage.idx--;
+		        }
+
             }
         });
         key('k', function(ev) {
@@ -169,11 +184,17 @@
             }
             else {
                 result_links = JSON.parse(localStorage.result_links);
-                location.href = result_links[--localStorage.idx]
+		if (link = result_links[--localStorage.idx]) {
+		    location.href = link;		
+		}
+		else {
+                   localStorage.idx++;
+		}
             }
         });
         key('/', function(ev) {
-            $('#gbqfq').focus();
+            if (site_opts.search_selector)
+                $(site_opts.search_selector).focus();
             ev.stopPropagation();
             ev.preventDefault();
         });
