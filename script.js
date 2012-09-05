@@ -4,7 +4,7 @@
 
     var opts = {
         'google': {
-            selectors: ['#ires>ol>li.g:nth(*) h3.r>a'],
+            selectors: ['h3.r>a:nth(*)'],
             allowSubdomains: false,
             search_selector: '#gbqfq',
             paginator_selector_next: 'a#pnnext.pn',
@@ -54,6 +54,10 @@
             selectors: ['li.vcard:nth(*)>div>h2>a'],
             search_selector: '#keywords-search',
             paginator_selector_next: '.paginator-next'
+        },
+        'facebook': {
+            selectors: ['div.clearfix.storyContent:nth(*) div div h6 div a'],
+            search_selector: 'input#q.inputtext.DOMControl_placeholder'
         }
     }
 
