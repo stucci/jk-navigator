@@ -120,7 +120,12 @@
                 result_links_container.each(function(m, link) {
                     result_links.push($(link).attr('href'));
                 });
-                localStorage.result_links = JSON.stringify(result_links);
+                new_result_links = JSON.stringify(result_links);
+                if (localStorage.result_links != new_result_links)
+                {
+                    localStorage.idx = 0;
+                    localStorage.result_links = new_result_links;
+                }
                 localStorage.start_page = location.href;
                 if (localStorage.idx == -1) {
                     localStorage.idx = result_links.length-1;
