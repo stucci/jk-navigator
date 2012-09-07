@@ -32,7 +32,7 @@
             paginator_selector_prev: '#pagnPrevLink'
         },
         'ebay': {
-            selectors: ['div.ittl:nth(*) a', 'div.ttl:nth(*) a'],
+            selectors: ['div.ittl:nth(*) a', 'div.ttl:nth(*) a', 'div.ititle:nth(*) a.vip'],
             search_selector: '#_fsb_nkw',
             paginator_selector_next: 'td.botpg-next a',
             paginator_selector_prev: 'td.botpg-prev a'
@@ -206,7 +206,7 @@
                     select(true);
                 }
                 else {
-                    if (site_opts.paginator_selector_prev && $(site_opts.paginator_selector_prev).length) {
+                    if (site_opts.paginator_selector_prev && $(site_opts.paginator_selector_prev).length && $(site_opts.paginator_selector_prev).attr('href') != 'javascript:;') {
                         localStorage.idx = -1; 
                         location.href = $(site_opts.paginator_selector_prev).attr('href');
                     }
@@ -216,12 +216,12 @@
             }
             else {
                 result_links = JSON.parse(localStorage.result_links);
-		if (link = result_links[--localStorage.idx]) {
-		    location.href = link;		
-		}
-		else {
+		            if (link = result_links[--localStorage.idx]) {
+		                location.href = link;		
+		            }
+		            else {
                    localStorage.idx++;
-		}
+		            }
             }
         });
         key('/', function(ev) {
