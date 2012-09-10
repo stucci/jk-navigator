@@ -8,7 +8,8 @@
             allowSubdomains: false,
             search_selector: '#gbqfq',
             paginator_selector_next: 'a#pnnext.pn',
-            paginator_selector_prev: 'a#pnprev.pn'
+            paginator_selector_prev: 'a#pnprev.pn',
+            liveUpdateElement: '#main'
         },
 
         'news.ycombinator': {
@@ -56,11 +57,13 @@
             paginator_selector_next: '.paginator-next'
         },
         'facebook': {
-            selectors: ['div.clearfix.storyContent:nth(*) div div h6 div a'],
-            search_selector: 'input#q.inputtext.DOMControl_placeholder'
+            selectors: [['li.uiStreamStory', 'li.uiStreamStory:nth(*) a:nth(1)']],
+            search_selector: 'input#q.inputtext.DOMControl_placeholder',
+            liveUpdateElement: '#contentArea'
         }
     }
 
+    var group_selector_all = null;
     var group_selector = null;
     var site_opts = null;
     var site = null;
@@ -99,11 +102,16 @@
 
     if (!localStorage.idx)
         localStorage.idx = 0;
+
+    var previousSelection = null;
     var select = function(focus) {
-        $(group_selector.replace(':nth(*)', '')).css('background-color', 'inherit');
+        if (previousSelection) {
+            $(previousSelection).css('background-color', 'inherit');
+        }
         var link = $(active_selector(localStorage.idx));
         link.css('background-color', '#fcc');
-        if (focus) {link.focus(); }
+        if (focus) { link.focus(); }
+        previousSelection = link.get()[0];
         return link;
     };
 
@@ -112,9 +120,16 @@
 
     function start(focusResult) {
         $(site_opts.selectors).each(function(n, selector) {
-            var result_links_container = $(selector.replace(':nth(*)', ''));
-            if (result_links_container.length) {
+            if (selector instanceof Array) {
+                group_selector_all = selector[0];
+                group_selector = selector[1];
+            } else {
+                group_selector_all = selector.replace(':nth(*)', '');
                 group_selector = selector;
+            }
+
+            var result_links_container = $(group_selector_all);
+            if (result_links_container.length) {
                 //store the links into the local storage
                 result_links = []
                 result_links_container.each(function(m, link) {
@@ -123,7 +138,7 @@
                 new_result_links = JSON.stringify(result_links);
                 if (localStorage.result_links != new_result_links)
                 {
-                    localStorage.idx = 0;
+                    if (focusResult) { localStorage.idx = 0; }
                     localStorage.result_links = new_result_links;
                 }
                 localStorage.start_page = location.href;
@@ -131,6 +146,8 @@
                     localStorage.idx = result_links.length-1;
                 }
                 return false; // break
+            } else {
+                group_selector = group_selector_all = null;
             }
         });
         if (!group_selector)
@@ -155,16 +172,14 @@
     $(function() {
         if (!site_opts) return;
         start(true);
-        if (site == 'google') {
-            //google is special
-            var main = document.getElementById('main');
+        if (site_opts.liveUpdateElement) {
+            var main = $(site_opts.liveUpdateElement).get()[0];
             if (main) {
-                //setTimeout(function() {
                 main.addEventListener("DOMSubtreeModified", function () {
                     if (!lock) {
                         lock = true;
                         start(false);
-                        lock = false;
+                        setTimeout(function() { lock = false; }, 0);
                     }
                 });
             }
@@ -176,7 +191,7 @@
     {
         key('j', function(ev) {
             if (group_selector) {
-                if (localStorage.idx < $(group_selector.replace(':nth(*)', '')).length-1) {
+                if (localStorage.idx < $(group_selector_all).length-1) {
                     localStorage.idx++;
                     select(true);
                 }
