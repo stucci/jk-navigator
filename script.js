@@ -61,6 +61,14 @@
             search_selector: 'input#q.inputtext.DOMControl_placeholder',
             liveUpdateElement: '#contentArea',
             infiniteScroll: true
+        },
+        'youtube': {
+            selectors: ['li div div h3 a:nth(*)'],
+            search_selector: '#masthead-search-term',
+        },
+        'stackoverflow': {
+            selectors: ['div h3 a.question-hyperlink:nth(*)'],
+            search_selector: 'form#search div input.textbox',
         }
     }
 
