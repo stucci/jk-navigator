@@ -138,7 +138,7 @@
                 new_result_links = JSON.stringify(result_links);
                 if (localStorage.result_links != new_result_links)
                 {
-                    if (focusResult) { localStorage.idx = 0; }
+                    if (focusResult && localStorage.idx != -1) { localStorage.idx = 0; }
                     localStorage.result_links = new_result_links;
                 }
                 localStorage.start_page = location.href;
