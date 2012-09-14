@@ -154,7 +154,12 @@
             //store the links into the local storage
             result_links = []
             result_links_container.each(function(m, link) {
-                result_links.push($(link).attr('href'));
+                if (site == 'google') {
+                    // HACK: Google rewrites links into tracking links when clicking them. Compare the text instead.
+                    result_links.push($(link).text());
+                } else {
+                    result_links.push($(link).attr('href'));
+                }
             });
             new_result_links = JSON.stringify(result_links);
             if (localStorage.result_links != new_result_links)
