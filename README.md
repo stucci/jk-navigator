@@ -1,5 +1,9 @@
-Keyboard Shortcuts for Google Search
+Keyboard Shortcuts for Chrome
 ====================================
+currently supported sites:
+Google, Facebook, Hackernews, Ebay, Amazon, Craigslist, Youtube, Stackoverflow, Quora, Reddit, Yelp, Linkedin
+
+========
 
 * `/`: Focus search box
 * `Return` or `o`: Load selected result

@@ -18,7 +18,9 @@
         },
         'quora': {
             selectors: ['div.pagedlist_item:not(.pagedlist_hidden) a.question_link:nth(*)'],
-            search_selector: '.question_box.light'
+            search_selector: '.question_box.light',
+            infiniteScroll: true,
+            liveUpdateElement: '.main .e_col .w4_5 main_col"',
         },
         'reddit': {
             selectors: ['#siteTable div.entry:nth(*) a.title'],
