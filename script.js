@@ -45,7 +45,8 @@
             selectors: ['div.businessresult:nth(*) h4.itemheading a'],
             search_selector: '#find_desc',
             paginator_selector_next: '#pager_page_next',
-            paginator_selector_prev: '#pager_page_prev'
+            paginator_selector_prev: '#pager_page_prev',
+            liveUpdateElement: '#businessresults'
         },
         'craigslist': {
             selectors: ['p.row:nth(*)>a'],
@@ -78,6 +79,8 @@
     var group_selector = null;
     var site_opts = null;
     var site = null;
+
+    var oldHTML = null;
 
     function set_domain_opts(domain) {
         var parts = domain.split('.');
@@ -116,10 +119,13 @@
 
     var previousSelection = null;
     var select = function(focus) {
+        var link = $(active_selector(localStorage.idx));
         if (previousSelection) {
+            if (link.get()[0] == previousSelection) {
+                return link;
+            }
             $(previousSelection).css('background-color', 'inherit');
         }
-        var link = $(active_selector(localStorage.idx));
         link.css('background-color', '#fcc');
         if (focus) { link.focus(); }
         previousSelection = link.get()[0];
@@ -127,7 +133,6 @@
     };
 
     var node = null;
-
 
     function start(focusResult) {
         if (!group_selector) {
@@ -176,21 +181,23 @@
         }
 
         var newNode = $(active_selector(localStorage.idx));
-        if (!node || (node.attr('href') != newNode.attr('href'))) {
+        if (!node || (node != newNode)) {
             if (!localStorage.idx) {
                 localStorage.idx = 0;
+
                 select(focusResult);
-                node = newNode;
+                node = newNode.get()[0];
             }
             else {
                 select(focusResult);
-                node = newNode;
+                node = newNode.get()[0];
             }
         }
 
     }
 
     var lock = false;
+    var updateTimeout = null;
 
     $(function() {
         if (!site_opts) return;
@@ -199,11 +206,19 @@
             var main = $(site_opts.liveUpdateElement).get()[0];
             if (main) {
                 main.addEventListener("DOMSubtreeModified", function () {
-                    if (!lock) {
-                        lock = true;
-                        start(false);
-                        setTimeout(function() { lock = false; }, 0);
+                    if (updateTimeout) {
+                        clearTimeout(updateTimeout);
                     }
+
+                    updateTimeout = setTimeout(function() {
+                        var newHTML = main && main.innerHTML;
+                        if (newHTML == oldHTML)
+                            return;
+
+                        oldHTML = newHTML;
+
+                        start(false);
+                    }, 100);
                 });
             }
         }
