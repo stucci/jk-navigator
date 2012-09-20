@@ -72,6 +72,9 @@
         'stackoverflow': {
             selectors: ['div h3 a.question-hyperlink:nth(*)'],
             search_selector: 'form#search div input.textbox',
+        },
+        'techcrunch': {
+            selectors: ['h2.headline a:nth(*)']
         }
     }
 
