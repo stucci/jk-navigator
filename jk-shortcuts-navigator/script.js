@@ -60,7 +60,7 @@
             paginator_selector_next: '.paginator-next'
         },
         'facebook': {
-            selectors: [['li.uiStreamStory', 'li.uiStreamStory:nth(*) a:nth(1)']],
+            selectors: [['#pagelet_home_stream li.uiStreamStory', '#pagelet_home_stream li.uiStreamStory:nth(*) a:nth(1)']],
             search_selector: 'input#q.inputtext.DOMControl_placeholder',
             liveUpdateElement: '#contentArea',
             infiniteScroll: true
