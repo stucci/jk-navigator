@@ -13,7 +13,7 @@ Google, Facebook, Hackernews, Ebay, Amazon, Craigslist, Youtube, Stackoverflow, 
 
 Installation
 ============
-1. Install from the Chrome Webstore: LINK_TO_BE_DEFINED
+1. Install from the Chrome Webstore: https://chrome.google.com/webstore/detail/chgfodomgimhbcmlfljhkgildehakgif/
 
 
 2. Manual installation

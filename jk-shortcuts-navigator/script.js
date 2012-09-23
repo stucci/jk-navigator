@@ -60,7 +60,7 @@
             paginator_selector_next: '.paginator-next'
         },
         'facebook': {
-            selectors: [['li.uiStreamStory', 'li.uiStreamStory:nth(*) a:nth(1)']],
+            selectors: [['#pagelet_home_stream li.uiStreamStory', '#pagelet_home_stream li.uiStreamStory:nth(*) a:nth(1)']],
             search_selector: 'input#q.inputtext.DOMControl_placeholder',
             liveUpdateElement: '#contentArea',
             infiniteScroll: true
@@ -82,8 +82,8 @@
     var group_selector = null;
     var site_opts = null;
     var site = null;
-
     var oldHTML = null;
+    var isEnabled = true;
 
     function set_domain_opts(domain) {
         var parts = domain.split('.');
@@ -138,6 +138,8 @@
     var node = null;
 
     function start(focusResult) {
+        if (!isEnabled) return;
+
         if (!group_selector) {
             $(site_opts.selectors).each(function(n, selector) {
                 if (selector instanceof Array) {
@@ -229,7 +231,22 @@
         //define what the different keystrokes do
         if (site_opts)
         {
-            key('j', function(ev) {
+            // Wraps the original function and doesn't execute it if there is a
+            // contenteditable element or if isEnabled is false.
+            var wrap = function(f) {
+                var wrapped = function(ev) {
+                    if ($('*[contenteditable=true]').is(':focus'))
+                        return;
+
+                    if (!isEnabled)
+                        return;
+
+                    return f(ev);
+                };
+
+                return wrapped;
+            };
+            key('j', wrap(function(ev) {
                 if (group_selector) {
                     if (localStorage.idx < $(group_selector_all).length-1) {
                         localStorage.idx++;
@@ -239,6 +256,7 @@
                         if (site_opts.paginator_selector_next && $(site_opts.paginator_selector_next).length) {
                             localStorage.idx = 0;
                             location.href = $(site_opts.paginator_selector_next).attr('href');
+                            isEnabled = false;
                         }
                     }
                     ev.stopPropagation();
@@ -247,14 +265,15 @@
                     result_links = JSON.parse(localStorage.result_links);
                     if (link = result_links[++localStorage.idx]) {
                         location.href = link;
+                        isEnabled = false;
                     }
                     else {
                        localStorage.idx--;
                     }
 
                 }
-            });
-            key('k', function(ev) {
+            }));
+            key('k', wrap(function(ev) {
                 if (group_selector) {
                     if (localStorage.idx > 0) {
                         localStorage.idx--;
@@ -264,6 +283,7 @@
                         if (site_opts.paginator_selector_prev && $(site_opts.paginator_selector_prev).length && $(site_opts.paginator_selector_prev).attr('href') != 'javascript:;') {
                             localStorage.idx = -1;
                             location.href = $(site_opts.paginator_selector_prev).attr('href');
+                            isEnabled = false;
                         }
 
                     }
@@ -271,14 +291,15 @@
                 }
                 else {
                     result_links = JSON.parse(localStorage.result_links);
-                        if (link = result_links[--localStorage.idx]) {
-                            location.href = link;
-                        }
-                        else {
-                       localStorage.idx++;
-                        }
+                    if (link = result_links[--localStorage.idx]) {
+                        location.href = link;
+                        isEnabled = false;
+                    }
+                    else {
+                        localStorage.idx++;
+                    }
                 }
-            });
+            }));
             key('/', function(ev) {
                 if (site_opts.search_selector)
                     $(site_opts.search_selector).focus();
@@ -314,7 +335,7 @@
                 open_link(ev, false, true);
             });
 
-            key('i', function(ev) {
+            key('i', wrap(function(ev) {
                 if (group_selector) {
                     if (localStorage.idx > 0) {
                         localStorage.idx=0;
@@ -324,8 +345,9 @@
                 }
                 else {
                     location.href = localStorage.start_page;
+                    isEnabled = true;
                 }
-            });
+            }));
         }
     });
 
