@@ -1,6 +1,6 @@
 {
   "name": "JK Shortcuts Navigator",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 2,
   "description": "Use keyboard shortcuts to navigate with the most popular websites.",
   "content_scripts": [
