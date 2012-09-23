@@ -75,7 +75,9 @@
             search_selector: 'form#search div input.textbox',
         },
         'techcrunch': {
-            selectors: ['h2.headline a:nth(*)']
+            selectors: ['h2.headline a:nth(*)'],
+            paginator_selector_next: '.page-next>a',
+            paginator_selector_prev: '.page-prev>a'
         }
     }
 
