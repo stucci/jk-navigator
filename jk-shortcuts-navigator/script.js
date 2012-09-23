@@ -57,7 +57,8 @@
         'linkedin': {
             selectors: ['li.vcard:nth(*)>div>h2>a'],
             search_selector: '#keywords-search',
-            paginator_selector_next: '.paginator-next'
+            paginator_selector_next: '.paginator-next',
+            paginator_selector_prev: '.paginator-prev'
         },
         'facebook': {
             selectors: [['#pagelet_home_stream li.uiStreamStory', '#pagelet_home_stream li.uiStreamStory:nth(*) a:nth(1)']],
@@ -300,12 +301,12 @@
                     }
                 }
             }));
-            key('/', function(ev) {
+            key('/', wrap(function(ev) {
                 if (site_opts.search_selector)
                     $(site_opts.search_selector).focus();
                 ev.stopPropagation();
                 ev.preventDefault();
-            });
+            }));
             function open_link(ev, newWindow, force) {
                 var link = select();
 
@@ -323,17 +324,17 @@
                 }
             }
 
-            key('return', function(ev) {
+            key('return', wrap(function(ev) {
                 open_link(ev, false);
-            });
+            }));
 
-            key('⌘+return', function(ev) {
+            key('⌘+return', wrap(function(ev) {
                 open_link(ev, true);
-            });
+            }));
 
-            key('o', function(ev) {
+            key('o', wrap(function(ev) {
                 open_link(ev, false, true);
-            });
+            }));
 
             key('i', wrap(function(ev) {
                 if (group_selector) {
