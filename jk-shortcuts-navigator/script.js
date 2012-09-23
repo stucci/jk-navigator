@@ -232,6 +232,9 @@
             // contenteditable element or if isEnabled is false.
             var wrap = function(f) {
                 var wrapped = function(ev) {
+                    if ($('*[contenteditable=true]').is(':focus'))
+                        return;
+
                     if (!isEnabled)
                         return;
 
