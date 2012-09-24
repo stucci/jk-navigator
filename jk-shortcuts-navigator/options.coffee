@@ -1,5 +1,5 @@
-class SiteModel extends Backbone.Model
-  valid_keys: [
+# TODO: remove redundancy
+valid_keys = [
     'selectors',
     'search_selector',
     'paginator_selector_next',
@@ -8,16 +8,6 @@ class SiteModel extends Backbone.Model
     'liveUpdateElement',
     'infiniteScroll'
   ]
-  getOpts: () ->
-    @get('opts')
-
-
-class SiteCollection extends Backbone.Collection
-  model:SiteModel
-  localStorage: new Backbone.LocalStorage("JKSites")
-
-Sites = new SiteCollection()
-
 defaultJSON = '''
 {
   "selectors":undefined,
@@ -41,22 +31,19 @@ class SiteView extends Backbone.View
 
   initialize: (options) ->
     @addnew = options.addnew
-
     if @model
       @model.bind('change', @render, @)
       @model.bind('destroy', @remove, @)
-
-
    
   render: () ->
     if @addnew
       opts = defaultJSON
     else
-      opts = @model.getOptsString()
+      opts = @model.getOpts()
 
     context = {
       addnew:@addnew
-      opts:opts
+      json_opts:opts
     }
     
     if @model
@@ -79,6 +66,12 @@ class SiteView extends Backbone.View
     values = {
       site: @$('input[name=site]').val()
     }
+   
+    opts = @validateOpts()
+    if opts == false
+      return
+    else
+      values['opts'] = opts
 
     if not @model
       @model = Sites.create(values)
@@ -92,8 +85,23 @@ class SiteView extends Backbone.View
     # Remove addnew item
     if @addnew
       @remove()
-  
- 
+
+  validateOpts: () ->
+    opts = @$('textarea[name=opts]').val()
+
+    try
+      opts = JSON.parse(opts)
+    catch error
+      alert 'Invalid JSON'
+      return false
+      
+    for k in _.keys(opts)
+      if valid_keys.indexOf(k) == -1
+        alert 'Unknown Key in Options: '+k
+        return false
+    
+    return opts
+
   removeSite: () ->
     if @model
       @model.destroy()

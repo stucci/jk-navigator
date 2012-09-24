@@ -7,6 +7,7 @@
     <script src="lib/backbone.localStorage-min.js"></script>
     <script src="lib/handlebars-1.0.rc.1.js"></script>
     <script src="siteitem.js"></script>
+    <script src="sites.js"></script>
     <script src="options.js"></script>
 
     <style>
@@ -82,7 +83,7 @@ p {
   margin-right:20px;
 }
 .customsites {
-  width:500px;
+  width:400px;
 }
 .customsites li {
   background-color:#efefef;
@@ -126,12 +127,16 @@ p {
 }
 .customsites li .edit textarea {
   font-family:monospace;
-  width:400px;
+  width:300px;
   height:250px;
 }
 .customsites li .edit .buttons {
   margin-top:5px;
 }
+.sitehelp h3 { margin-top:20px; margin-bottom:10px; }
+.sitehelp ul { list-style-type:none; }
+.sitehelp li { margin-bottom:5px; color:#444;}
+.sitehelp li strong { font-family:monospace; font-weight:bold; color:#222;}
   </style>
   </head>
   <body>
@@ -147,6 +152,19 @@ p {
 
     <ul class="customsites">
     </ul>
+
+      <div class="sitehelp">
+<h3>Explanation</h3>
+<ul>
+<li><strong>selectors:</strong> css selector for the list of links that should be iterated through.</li>
+<li><strong>paginator_selector_next:</strong> css selector for the link that goes to the next page of search results</li>
+<li><strong>paginator_selector_previous:</strong> css selector for the link that goes to the previous page of search results</li> 
+<li><strong>allowSubdomains:</strong> wether or not docs.google.com should trigger the jk navigator with this selector (www is not treated as subdomain here and will always work)</li>
+<li><strong>search_selector:</strong> css selector for the search field</li>
+<li><strong>liveUpdateElement:</strong> for pages with ajax, we sometimes need to define a listener on the parent css element of the link list to know when they are all ready.</li>
+<li><strong>infiniteScroll:</strong> set to True if we have a page like facebook or quora that can dynamically load new links into the link list.</li>
+</ul>
+</div>
 
     <h2>About</h2>
     The JK Navigator is built by: thomasst, flaviorump & lucasvo

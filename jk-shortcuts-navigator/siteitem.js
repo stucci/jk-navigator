@@ -14,9 +14,9 @@ templates['siteitem'] = template(function (Handlebars,depth0,helpers,partials,da
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.site; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1) + "\" placeholder=\"Site Name\"/><br />\n<textarea name=\"opts\">\n";
-  foundHelper = helpers.opts;
+  foundHelper = helpers.json_opts;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.opts; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  else { stack1 = depth0.json_opts; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1) + "\n</textarea><br />\n  <div class=\"buttons\">\n    <button class=\"savesite\">Save Site</button> <button href=\"#\" class=\"removesite\">Remove Site</button>\n  </div>\n</div>\n\n";
   return buffer;});
 })();
