@@ -135,10 +135,13 @@ p {
 .customsites li .edit .buttons {
   margin-top:5px;
 }
-.sitehelp h3 { margin-top:20px; margin-bottom:10px; }
+.sitehelp h2 { margin-top:20px; margin-bottom:10px; }
 .sitehelp ul { list-style-type:none; }
 .sitehelp li { margin-bottom:5px; color:#444;}
 .sitehelp li strong { font-family:monospace; font-weight:bold; color:#222;}
+.sitehelp table { width:600px; }
+.sitehelp td { padding-top:10px; padding-right:15px; line-height:120%; }
+.sitehelp tr>td:first-child { font-weight:bold; }
   </style>
   </head>
   <body>
@@ -156,16 +159,16 @@ p {
     </ul>
 
       <div class="sitehelp">
-<h3>Explanation</h3>
-<ul>
-<li><strong>selectors:</strong> css selector for the list of links that should be iterated through.</li>
-<li><strong>paginator_selector_next:</strong> css selector for the link that goes to the next page of search results</li>
-<li><strong>paginator_selector_previous:</strong> css selector for the link that goes to the previous page of search results</li> 
-<li><strong>allowSubdomains:</strong> wether or not docs.google.com should trigger the jk navigator with this selector (www is not treated as subdomain here and will always work)</li>
-<li><strong>search_selector:</strong> css selector for the search field</li>
-<li><strong>liveUpdateElement:</strong> for pages with ajax, we sometimes need to define a listener on the parent css element of the link list to know when they are all ready.</li>
-<li><strong>infiniteScroll:</strong> set to True if we have a page like facebook or quora that can dynamically load new links into the link list.</li>
-</ul>
+<h2>Explanation</h2>
+<table id="#table_explanation">
+<tr><td>selectors:</td><td> css selector(s) for the links that we want to navigate.</td></tr>
+<tr><td>paginator_selector_next:</td><td> css selector for the link that opens next page of results</td></tr>
+<tr><td>paginator_selector_prev:</td><td> css selector for the link that opens next page of results</td></tr> 
+<tr><td>allowSubdomains:</td><td> whether or not subdomains should trigger the jk navigator (www is not treated as subdomain here and will always work). docs.google.com for example has its own jk functionality and should not be broken through the one on google.com</td></tr>
+<tr><td>search_selector:</td><td> css selector for the search input field</td></tr>
+<tr><td>liveUpdateElement:</td><td> for pages with ajax, such as Google and Facebook, that load search results dynamically, we need to know the parent liveUpdate Element so that we can load jk at the right time when results are here.</td></tr>
+<tr><td>infiniteScroll:</td><td> set to True if we have a page like Facebook or Quora that can dynamically load new links into the link list.</td></tr>
+</table>
 </div>
 
     <h2>About</h2>
