@@ -65,9 +65,9 @@ class SiteView extends Backbone.View
   saveSite: () ->
     if not @validate()
       return
- 
+
     values = {
-      'title':@title
+      'site':@site
       'opts':@opts
     }
 
@@ -119,6 +119,7 @@ class OptionPane extends Backbone.View
 
   events: {
     'click .addsite': 'addSite',
+    'click .restoresites':'restoreSites', 
   }
 
   initialize: () ->
@@ -138,7 +139,13 @@ class OptionPane extends Backbone.View
     view = new SiteView({addnew:true})
     
     @$(".customsites").prepend(view.render().el)
- 
+
+  restoreSites: ->
+    sites = Sites.where({builtin:true})
+    for s in sites
+      s.destroy()
+    Sites.addDefaults()
+
 $(() ->
   options = new OptionPane()
 #  options.initialize()

@@ -81,7 +81,7 @@ builtInSites = {
 class SiteModel extends Backbone.Model
   getOpts: () ->
     json = JSON.stringify @get('opts'), undefined, '    '
-    json 
+
   submitToJK: () ->
     if @get('onlineId')
       url = "http://http://jknavigator.herokuapp.com/api/v1/site/"+@get('onlineId')
@@ -99,6 +99,11 @@ class SiteModel extends Backbone.Model
 class SiteCollection extends Backbone.Collection
   model:SiteModel
   localStorage: new Backbone.LocalStorage("JKSites")
+  addDefaults: () ->
+    _.each(builtInSites, (value, key) ->
+      Sites.create({site:key, opts:value, builtin:true})
+    )
+
 
   getSiteByDomain: (domain) ->
     parts = domain.split('.')
@@ -133,9 +138,8 @@ $(document).ready(() ->
   # Add builtin sites to localStorage
   Sites.fetch()
   if Sites.models.length == 0
-    _.each(builtInSites, (value, key) ->
-      Sites.create({site:key, opts:value, builtin:true})
-    )
+    Sites.addDefaults()
+  
 )
 
 window.Sites = Sites
