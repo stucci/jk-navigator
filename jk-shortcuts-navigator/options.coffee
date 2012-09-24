@@ -87,8 +87,9 @@ class SiteView extends Backbone.View
       @remove()
 
   validateOpts: () ->
+  # Validates
     opts = @$('textarea[name=opts]').val()
-
+  
     try
       opts = JSON.parse(opts)
     catch error
@@ -107,7 +108,6 @@ class SiteView extends Backbone.View
       @model.destroy()
     else
       @remove()
-    
 
 class OptionPane extends Backbone.View
   el:'body'
@@ -130,10 +130,6 @@ class OptionPane extends Backbone.View
     Sites.each(@addOne)
 
   addSite: () ->
-#    el = $('<li>').html(Handlebars.templates.siteitem({site:'New Site'}))
-#    el.addClass('addnew')
-#    @$(".customsites").prepend(el)
-
     view = new SiteView({addnew:true})
     
     @$(".customsites").prepend(view.render().el)
