@@ -100,6 +100,33 @@ class SiteCollection extends Backbone.Collection
   model:SiteModel
   localStorage: new Backbone.LocalStorage("JKSites")
 
+  getSiteByDomain: (domain) ->
+    parts = domain.split('.')
+    copy = parts.splice()
+
+    if parts[0] == 'www'
+        parts = parts.splice(1)
+
+    if parts.length > 2 && parts[parts.length-2].length <= 3
+        parts.splice(-2)
+    else
+        parts.splice(-1)
+
+    i = 0
+    while parts.length > 0
+        main_domain = parts.join('.')
+
+        sites = @where({ site: main_domain })
+        if (sites)
+          site = sites[0]
+
+        if site && (i == 0 || site.get('opts').allowSubdomains != false)
+          return site
+
+        parts = parts.splice(1)
+        i++
+
+
 Sites = new SiteCollection()
 
 $(document).ready(() ->
