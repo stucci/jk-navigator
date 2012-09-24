@@ -272,6 +272,8 @@
                     isEnabled = true;
                 }
             }));
+
+            chrome.extension.sendRequest({action: 'show_page_action'});
         }
     });
 
