@@ -14,7 +14,7 @@
         "http://*/*",
         "https://*/*"
       ],
-      "js": ["lib/jquery-1.8.2.min.js", "keymaster.min.js", "underscore-min.js", "script.js"],
+      "js": ["lib/jquery-1.8.2.min.js", "keymaster.min.js", "lib/underscore-min.js", "script.js"],
       "run_at": "document_start"
     }
   ],
