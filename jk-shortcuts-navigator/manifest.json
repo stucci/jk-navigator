@@ -5,7 +5,9 @@
   "description": "Use keyboard shortcuts to navigate with the most popular websites.",
   "permissions": [
     "contextMenus",
-    "http://localhost:5002/*"
+    "http://localhost:5002/*",
+    "http://jknavigator.herokuapp.com/*"
+
   ],
   "options_page":"options.html", 
   "content_scripts": [

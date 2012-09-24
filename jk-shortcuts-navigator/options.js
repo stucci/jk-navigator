@@ -6,7 +6,7 @@
 
   valid_keys = ['selectors', 'search_selector', 'paginator_selector_next', 'paginator_selector_prev', 'allowSubdomains', 'liveUpdateElement', 'infiniteScroll'];
 
-  defaultJSON = '{\n  "selectors":undefined,\n  "search_selector":undefined,\n  "paginator_selector_next":undefined,\n  "paginator_selector_prev":undefined,\n  "liveUpdateElement"\n  "allowSubdomains":undefined,\n  "infiniteScroll":undefined\n}';
+  defaultJSON = '{\n  "selectors":null,\n  "search_selector":null,\n  "paginator_selector_next":null,\n  "paginator_selector_prev":null,\n  "liveUpdateElement":null,\n  "allowSubdomains":null,\n  "infiniteScroll":null\n}';
 
   SiteView = (function(_super) {
 
@@ -63,21 +63,22 @@
     };
 
     SiteView.prototype.saveSite = function() {
-      var opts, values;
-      values = {
-        site: this.$('input[name=site]').val()
-      };
-      opts = this.validateOpts();
-      if (opts === false) {
+      var values;
+      if (!this.validate()) {
         return;
-      } else {
-        values['opts'] = opts;
       }
+      values = {
+        'title': this.title,
+        'opts': this.opts
+      };
       if (!this.model) {
         this.model = Sites.create(values);
       } else {
         this.model.set(values);
         this.model.save();
+      }
+      if (this.$('#submittojk').val() === 'on') {
+        this.model.submitToJK();
       }
       this.editMode = false;
       this.$el.removeClass('editable');
@@ -86,8 +87,12 @@
       }
     };
 
-    SiteView.prototype.validateOpts = function() {
+    SiteView.prototype.validate = function() {
       var k, opts, _i, _len, _ref;
+      this.site = this.$('input[name=site]').val();
+      if (!this.site) {
+        return false;
+      }
       opts = this.$('textarea[name=opts]').val();
       try {
         opts = JSON.parse(opts);
@@ -103,7 +108,8 @@
           return false;
         }
       }
-      return opts;
+      this.opts = opts;
+      return true;
     };
 
     SiteView.prototype.removeSite = function() {

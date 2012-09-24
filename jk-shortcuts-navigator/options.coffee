@@ -10,13 +10,13 @@ valid_keys = [
   ]
 defaultJSON = '''
 {
-  "selectors":undefined,
-  "search_selector":undefined,
-  "paginator_selector_next":undefined,
-  "paginator_selector_prev":undefined,
-  "liveUpdateElement"
-  "allowSubdomains":undefined,
-  "infiniteScroll":undefined
+  "selectors":null,
+  "search_selector":null,
+  "paginator_selector_next":null,
+  "paginator_selector_prev":null,
+  "liveUpdateElement":null,
+  "allowSubdomains":null,
+  "infiniteScroll":null
 }
 '''
 
@@ -63,33 +63,37 @@ class SiteView extends Backbone.View
     @$el.addClass('editable')
 
   saveSite: () ->
-    values = {
-      site: @$('input[name=site]').val()
-    }
-   
-    opts = @validateOpts()
-    if opts == false
+    if not @validate()
       return
-    else
-      values['opts'] = opts
+ 
+    values = {
+      'title':@title
+      'opts':@opts
+    }
 
     if not @model
       @model = Sites.create(values)
     else
       @model.set(values)
       @model.save()
+
+    if @$('#submittojk').val() == 'on'
+      @model.submitToJK()
     
     @editMode = false
     @$el.removeClass('editable')
+
 
     # Remove addnew item
     if @addnew
       @remove()
 
-  validateOpts: () ->
-  # Validates
+  validate: () ->
+    @site = @$('input[name=site]').val()
+    if not @site
+      return false
+
     opts = @$('textarea[name=opts]').val()
-  
     try
       opts = JSON.parse(opts)
     catch error
@@ -101,7 +105,8 @@ class SiteView extends Backbone.View
         alert 'Unknown Key in Options: '+k
         return false
     
-    return opts
+    @opts = opts
+    return true
 
   removeSite: () ->
     if @model
