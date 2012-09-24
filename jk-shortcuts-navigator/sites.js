@@ -91,8 +91,7 @@
 
     SiteModel.prototype.getOpts = function() {
       var json;
-      json = JSON.stringify(this.get('opts'), void 0, '    ');
-      return json;
+      return json = JSON.stringify(this.get('opts'), void 0, '    ');
     };
 
     SiteModel.prototype.submitToJK = function() {
@@ -127,6 +126,16 @@
     SiteCollection.prototype.model = SiteModel;
 
     SiteCollection.prototype.localStorage = new Backbone.LocalStorage("JKSites");
+
+    SiteCollection.prototype.addDefaults = function() {
+      return _.each(builtInSites, function(value, key) {
+        return Sites.create({
+          site: key,
+          opts: value,
+          builtin: true
+        });
+      });
+    };
 
     SiteCollection.prototype.getSiteByDomain = function(domain) {
       var copy, i, main_domain, parts, site, sites;
@@ -166,13 +175,7 @@
   $(document).ready(function() {
     Sites.fetch();
     if (Sites.models.length === 0) {
-      return _.each(builtInSites, function(value, key) {
-        return Sites.create({
-          site: key,
-          opts: value,
-          builtin: true
-        });
-      });
+      return Sites.addDefaults();
     }
   });
 

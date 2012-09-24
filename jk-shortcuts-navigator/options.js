@@ -68,7 +68,7 @@
         return;
       }
       values = {
-        'title': this.title,
+        'site': this.site,
         'opts': this.opts
       };
       if (!this.model) {
@@ -135,7 +135,8 @@
     OptionPane.prototype.el = 'body';
 
     OptionPane.prototype.events = {
-      'click .addsite': 'addSite'
+      'click .addsite': 'addSite',
+      'click .restoresites': 'restoreSites'
     };
 
     OptionPane.prototype.initialize = function() {
@@ -163,6 +164,18 @@
         addnew: true
       });
       return this.$(".customsites").prepend(view.render().el);
+    };
+
+    OptionPane.prototype.restoreSites = function() {
+      var s, sites, _i, _len;
+      sites = Sites.where({
+        builtin: true
+      });
+      for (_i = 0, _len = sites.length; _i < _len; _i++) {
+        s = sites[_i];
+        s.destroy();
+      }
+      return Sites.addDefaults();
     };
 
     return OptionPane;
