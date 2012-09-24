@@ -1,41 +1,20 @@
 // note: key library was modified to enable capture in addEventListener
 
 (function() {
-    var opts = [];
+
+chrome.extension.sendMessage({action: 'getOpts', domain: document.domain}, function(site_data) {
+
+    if (!site_data) { return; }
+    chrome.extension.sendMessage({action: 'showPageAction'});
+    if (site_data.enabled === false) { return; }
+
     var group_selector_all = null;
     var group_selector = null;
-    var site_opts = null;
-    var site = null;
+    var site_opts = site_data.opts;
+    var site = site_data.site;
     var oldHTML = null;
     var isEnabled = true;
 
-    function set_domain_opts(domain) {
-        var parts = domain.split('.');
-        var copy = parts.splice();
-
-        if (parts[0] == 'www') {
-            parts = parts.splice(1);
-        }
-        if (parts.length > 2 && parts[parts.length-2].length <= 3)
-            parts.splice(-2);
-        else
-            parts.splice(-1);
-
-        var i = 0;
-        while (parts.length > 0) {
-            main_domain = parts.join('.');
-            if (opts[main_domain] && (i == 0 || opts[main_domain].allowSubdomains !== false))
-            {
-                site = main_domain;
-                site_opts = opts[main_domain];
-                return;
-            }
-            parts = parts.splice(1);
-            i++;
-        }
-    }
-
-    set_domain_opts(document.domain);
 
     function active_selector(idx) {
         return group_selector.replace(':nth(*)', ':nth('+idx+')')
@@ -272,9 +251,9 @@
                     isEnabled = true;
                 }
             }));
-
-            chrome.extension.sendRequest({action: 'show_page_action'});
         }
     });
+
+});
 
 })();

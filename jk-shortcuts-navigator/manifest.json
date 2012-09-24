@@ -6,8 +6,8 @@
   "permissions": [
     "contextMenus",
     "tabs",
-    "http://localhost:5002/*",
-    "http://jknavigator.herokuapp.com/*"
+    "http://*/*",
+    "https://*/*"
   ],
   "options_page":"options.html", 
   "content_scripts": [
@@ -21,7 +21,7 @@
     }
   ],
   "background": {
-    "scripts": ["background.js"]
+    "page": "background.html"
   },
   "page_action": {
     "default_icon": "icon16.png",
