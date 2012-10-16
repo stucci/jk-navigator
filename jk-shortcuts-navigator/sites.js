@@ -14,7 +14,7 @@
         paginator_selector_prev: 'a#pnprev.pn',
         liveUpdateElement: '#main'
       },
-      regex: '^https?://(www\.)?google\.([a-z.]+)\/(?!reader\/).*$'
+      regex: '^https?://(www\.)?google\.([a-z\.]+)\/(?!reader\/).*$'
     },
     'news.ycombinator': {
       opts: {
@@ -48,7 +48,7 @@
         paginator_selector_next: '#pagnNextLink',
         paginator_selector_prev: '#pagnPrevLink'
       },
-      regex: 'https?://(www\.)?amazon\.[a-z.]+\/.*'
+      regex: 'https?://(www\.)?amazon\.[a-z\.]+\/.*'
     },
     'ebay': {
       opts: {
@@ -181,18 +181,18 @@
       var sites,
         _this = this;
       sites = this.filter(function(site) {
-        var regex;
+        var r, regex;
         regex = site.get('regex');
         if (!regex) {
           return false;
         }
         regex = new RegExp(regex, 'i');
-        regex.compile();
-        return regex.test(url);
+        return r = regex.test(url);
       });
       if (sites.length > 1) {
         console.warn("More than one site matched. Defaulted to the first match", sites);
       }
+      console.log(sites);
       return sites[0];
     };
 

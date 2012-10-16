@@ -8,7 +8,7 @@ builtInSites = {
       paginator_selector_prev: 'a#pnprev.pn',
       liveUpdateElement: '#main'
     },
-    regex:'^https?://(www\.)?google\.([a-z.]+)\/(?!reader\/).*$' # We need to exclude Google Reader
+    regex:'^https?://(www\.)?google\.([a-z\.]+)\/(?!reader\/).*$' # We need to exclude Google Reader
   },
 
   'news.ycombinator': {
@@ -43,7 +43,7 @@ builtInSites = {
       paginator_selector_next: '#pagnNextLink',
       paginator_selector_prev: '#pagnPrevLink'
     },
-    regex: 'https?://(www\.)?amazon\.[a-z.]+\/.*'
+    regex: 'https?://(www\.)?amazon\.[a-z\.]+\/.*'
   },
   'ebay': {
     opts: {
@@ -152,10 +152,10 @@ class SiteCollection extends Backbone.Collection
       regex = site.get('regex')
       if not regex then return false
       regex = new RegExp(regex, 'i')
-      regex.compile()
-      regex.test(url)
+      r = regex.test(url)
     )
     if sites.length > 1 then console.warn("More than one site matched. Defaulted to the first match", sites)
+    console.log sites
     sites[0]
 
 Sites = new SiteCollection()
