@@ -27,6 +27,7 @@ class SiteView extends Backbone.View
     'click .title': 'editSite'
     'click .savesite': 'saveSite'
     'click .removesite': 'removeSite'
+    'click .discard': 'discardChanges' 
   }
 
   initialize: (options) ->
@@ -69,6 +70,7 @@ class SiteView extends Backbone.View
     values = {
       'site':@site
       'opts':@opts
+      'modified':true
     }
 
     if not @model
@@ -113,6 +115,13 @@ class SiteView extends Backbone.View
       @model.destroy()
     else
       @remove()
+
+  discardChanges: () ->
+    @editMode = false
+    @$el.removeClass('editable')
+    @site = @$('input[name=site]').val(@model.get('site'))
+    @$('textarea[name=opts]').val(@model.getOpts())
+
 
 class OptionPane extends Backbone.View
   el:'body'

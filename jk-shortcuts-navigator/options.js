@@ -21,7 +21,8 @@
     SiteView.prototype.events = {
       'click .title': 'editSite',
       'click .savesite': 'saveSite',
-      'click .removesite': 'removeSite'
+      'click .removesite': 'removeSite',
+      'click .discard': 'discardChanges'
     };
 
     SiteView.prototype.initialize = function(options) {
@@ -69,7 +70,8 @@
       }
       values = {
         'site': this.site,
-        'opts': this.opts
+        'opts': this.opts,
+        'modified': true
       };
       if (!this.model) {
         this.model = Sites.create(values);
@@ -118,6 +120,13 @@
       } else {
         return this.remove();
       }
+    };
+
+    SiteView.prototype.discardChanges = function() {
+      this.editMode = false;
+      this.$el.removeClass('editable');
+      this.site = this.$('input[name=site]').val(this.model.get('site'));
+      return this.$('textarea[name=opts]').val(this.model.getOpts());
     };
 
     return SiteView;
