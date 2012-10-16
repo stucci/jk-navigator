@@ -11,10 +11,7 @@
     }
     if (request.action === 'toggleSite') {
       return chrome.tabs.getSelected(function(tab) {
-        var l;
-        l = document.createElement('a');
-        l.href = tab.url;
-        site = Sites.getSiteByDomain(l.hostname);
+        site = Sites.getSiteByUrl(tab.url);
         if (site) {
           site.set('enabled', request.enabled);
           site.save();
@@ -28,15 +25,12 @@
 
   chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     var site;
-    if (request.domain) {
-      site = Sites.getSiteByDomain(request.domain);
+    if (request.url) {
+      site = Sites.getSiteByUrl(request.url);
       withSiteResponse(request, sender, sendResponse, site);
     } else {
       chrome.tabs.getSelected(function(tab) {
-        var l;
-        l = document.createElement('a');
-        l.href = tab.url;
-        site = Sites.getSiteByDomain(l.hostname);
+        site = Sites.getSiteByUrl(tab.url);
         return withSiteResponse(request, sender, sendResponse, site);
       });
     }

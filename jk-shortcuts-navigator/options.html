@@ -125,10 +125,25 @@ p {
 .customsites li.editable .title {
   display:none;
 }
+.customsites li .edit label {
+  display:block;
+  font-weight:bold;
+  margin-bottom:9px;
+}
+.customsites li .edit label input {
+  margin-top:3p;
+  box-sizing:border-box;
+  margin-left:0px;
+}
 .customsites li .edit textarea {
   font-family:monospace;
   width:570px;
   height:250px;
+  margin-bottom:9px;
+}
+.customsites li .edit .regex {
+  font-family:monospace;
+  width:570px;
 }
 .customsites li .edit .buttons {
   margin-top:5px;
@@ -151,11 +166,11 @@ p {
 
       <div class="sitehelp">
 <h2>Explanation</h2>
+<p>Define a regex to match for sites you want to enable JK on and create a simple JSON object defining the selectors to use for it.</p> 
 <table id="table_explanation">
 <tr><td>selectors:</td><td> css selector(s) for the links that we want to navigate.</td></tr>
 <tr><td>paginator_selector_next:</td><td> css selector for the link that opens next page of results</td></tr>
 <tr><td>paginator_selector_prev:</td><td> css selector for the link that opens next page of results</td></tr> 
-<tr><td>allowSubdomains:</td><td> whether or not subdomains should trigger the jk navigator (www is not treated as subdomain here and will always work). docs.google.com for example has its own jk functionality and should not be broken through the one on google.com</td></tr>
 <tr><td>search_selector:</td><td> css selector for the search input field</td></tr>
 <tr><td>liveUpdateElement:</td><td> for pages with ajax, such as Google and Facebook, that load search results dynamically, we need to know the parent liveUpdate Element so that we can load jk at the right time when results are here.</td></tr>
 <tr><td>infiniteScroll:</td><td> set to True if we have a page like Facebook or Quora that can dynamically load new links into the link list.</td></tr>

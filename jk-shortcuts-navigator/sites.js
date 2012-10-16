@@ -6,78 +6,117 @@
 
   builtInSites = {
     'google': {
-      selectors: ['h3.r>a:nth(*)'],
-      allowSubdomains: false,
-      search_selector: '#gbqfq',
-      paginator_selector_next: 'a#pnnext.pn',
-      paginator_selector_prev: 'a#pnprev.pn',
-      liveUpdateElement: '#main'
+      opts: {
+        selectors: ['h3.r>a:nth(*)'],
+        allowSubdomains: false,
+        search_selector: '#gbqfq',
+        paginator_selector_next: 'a#pnnext.pn',
+        paginator_selector_prev: 'a#pnprev.pn',
+        liveUpdateElement: '#main'
+      },
+      regex: '^https?://(www\.)?google\.([a-z.]+)\/(?!reader\/).*$'
     },
     'news.ycombinator': {
-      selectors: ['td.title a:nth(*)'],
-      search_selector: 'center form input'
+      opts: {
+        selectors: ['td.title a:nth(*)'],
+        search_selector: 'center form input'
+      },
+      regex: 'https?://news\.ycomabinator\.com\/.*'
     },
     'quora': {
-      selectors: ['div.pagedlist_item:not(.pagedlist_hidden) a.question_link:nth(*)'],
-      search_selector: '.question_box.light',
-      infiniteScroll: true,
-      liveUpdateElement: '.main .e_col .w4_5 main_col"'
+      opts: {
+        selectors: ['div.pagedlist_item:not(.pagedlist_hidden) a.question_link:nth(*)'],
+        search_selector: '.question_box.light',
+        infiniteScroll: true,
+        liveUpdateElement: '.main .e_col .w4_5 main_col"'
+      },
+      regex: 'https?://(www\.)?quora\.com\/.*'
     },
     'reddit': {
-      selectors: ['#siteTable div.entry:nth(*) a.title'],
-      search_selector: 'form#search input',
-      paginator_selector_next: 'p.nextprev a:last-of-type',
-      paginator_selector_prev: 'p.nextprev a:first-of-type'
+      opts: {
+        selectors: ['#siteTable div.entry:nth(*) a.title'],
+        search_selector: 'form#search input',
+        paginator_selector_next: 'p.nextprev a:last-of-type',
+        paginator_selector_prev: 'p.nextprev a:first-of-type'
+      },
+      regex: 'https?://(www\.)?reddit\.com\/.*'
     },
     'amazon': {
-      selectors: ['h3.newaps:nth(*)>a', 'div.data:nth(*) h3.title a.title'],
-      search_selector: '#twotabsearchtextbox',
-      paginator_selector_next: '#pagnNextLink',
-      paginator_selector_prev: '#pagnPrevLink'
+      opts: {
+        selectors: ['h3.newaps:nth(*)>a', 'div.data:nth(*) h3.title a.title'],
+        search_selector: '#twotabsearchtextbox',
+        paginator_selector_next: '#pagnNextLink',
+        paginator_selector_prev: '#pagnPrevLink'
+      },
+      regex: 'https?://(www\.)?amazon\.[a-z.]+\/.*'
     },
     'ebay': {
-      selectors: ['div.ittl:nth(*) a', 'div.ttl:nth(*) a', 'div.ititle:nth(*) a.vip'],
-      search_selector: '#_fsb_nkw',
-      paginator_selector_next: 'td.botpg-next a',
-      paginator_selector_prev: 'td.botpg-prev a'
+      opts: {
+        selectors: ['div.ittl:nth(*) a', 'div.ttl:nth(*) a', 'div.ititle:nth(*) a.vip'],
+        search_selector: '#_fsb_nkw',
+        paginator_selector_next: 'td.botpg-next a',
+        paginator_selector_prev: 'td.botpg-prev a'
+      },
+      regex: 'https?://(www\.)?quora\.com\/.*'
     },
     'yelp': {
-      selectors: ['div.businessresult:nth(*) h4.itemheading a'],
-      search_selector: '#find_desc',
-      paginator_selector_next: '#pager_page_next',
-      paginator_selector_prev: '#pager_page_prev',
-      liveUpdateElement: '#businessresults'
+      opts: {
+        selectors: ['div.businessresult:nth(*) h4.itemheading a'],
+        search_selector: '#find_desc',
+        paginator_selector_next: '#pager_page_next',
+        paginator_selector_prev: '#pager_page_prev',
+        liveUpdateElement: '#businessresults'
+      },
+      regex: 'https?://(www\.)?yelp\.com\/.*'
     },
     'craigslist': {
-      selectors: ['p.row:nth(*)>a'],
-      search_selector: '#query',
-      paginator_selector_next: 'h4>span:last-of-type>a',
-      paginator_selector_prev: 'h4>span:first-of-type>a'
+      opts: {
+        selectors: ['p.row:nth(*)>a'],
+        search_selector: '#query',
+        paginator_selector_next: 'h4>span:last-of-type>a',
+        paginator_selector_prev: 'h4>span:first-of-type>a'
+      },
+      regex: 'https?://(\w+\.)?quora\.org\/.*'
     },
     'linkedin': {
-      selectors: ['li.vcard:nth(*)>div>h2>a'],
-      search_selector: '#keywords-search',
-      paginator_selector_next: '.paginator-next',
-      paginator_selector_prev: '.paginator-prev'
+      opts: {
+        selectors: ['li.vcard:nth(*)>div>h2>a'],
+        search_selector: '#keywords-search',
+        paginator_selector_next: '.paginator-next',
+        paginator_selector_prev: '.paginator-prev'
+      },
+      regex: 'https?://([a-z]+\.)?linkedin\.com\/.*'
     },
     'facebook': {
-      selectors: [['#pagelet_home_stream li.uiStreamStory', '#pagelet_home_stream li.uiStreamStory:nth(*) a:nth(1)']],
-      search_selector: 'input#q.inputtext.DOMControl_placeholder',
-      liveUpdateElement: '#contentArea',
-      infiniteScroll: true
+      opts: {
+        selectors: [['#pagelet_home_stream li.uiStreamStory', '#pagelet_home_stream li.uiStreamStory:nth(*) a:nth(1)']],
+        search_selector: 'input#q.inputtext.DOMControl_placeholder',
+        liveUpdateElement: '#contentArea',
+        infiniteScroll: true
+      },
+      regex: 'https?://(www\.)?facebook\.com\/.*'
     },
     'youtube': {
-      selectors: ['li div div h3 a:nth(*)'],
-      search_selector: '#masthead-search-term'
+      opts: {
+        selectors: ['li div div h3 a:nth(*)'],
+        search_selector: '#masthead-search-term'
+      },
+      regex: 'https?://(www\.)?youtube\.com\/.*'
     },
-    'stackoverflow': {
-      selectors: ['div h3 a.question-hyperlink:nth(*)'],
-      search_selector: 'form#search div input.textbox'
+    'stackoverflow|serverfault|superuser|askubuntu|stackexchange': {
+      opts: {
+        selectors: ['div h3 a.question-hyperlink:nth(*)'],
+        search_selector: 'form#search div input.textbox'
+      },
+      regex: 'https?://([a-z]+\.)?(stackoverflow|serverfault|superuser|askubuntu|stackexchange).com\/.*'
     },
     'techcrunch': {
-      selectors: ['h2.headline a:nth(*)'],
-      paginator_selector_next: '.page-next>a',
-      paginator_selector_prev: '.page-prev>a'
+      opts: {
+        selectors: ['h2.headline a:nth(*)'],
+        paginator_selector_next: '.page-next>a',
+        paginator_selector_prev: '.page-prev>a'
+      },
+      regex: 'https?://(www\.)?techcrunch\.com\/.*'
     }
   };
 
@@ -131,39 +170,30 @@
       return _.each(builtInSites, function(value, key) {
         return Sites.create({
           site: key,
-          opts: value,
+          opts: value['opts'],
+          regex: value['regex'] ? value['regex'] : void 0,
           builtin: true
         });
       });
     };
 
-    SiteCollection.prototype.getSiteByDomain = function(domain) {
-      var copy, i, main_domain, parts, site, sites;
-      parts = domain.split('.');
-      copy = parts.splice();
-      if (parts[0] === 'www') {
-        parts = parts.splice(1);
-      }
-      if (parts.length > 2 && parts[parts.length - 2].length <= 3) {
-        parts.splice(-2);
-      } else {
-        parts.splice(-1);
-      }
-      i = 0;
-      while (parts.length > 0) {
-        main_domain = parts.join('.');
-        sites = this.where({
-          site: main_domain
-        });
-        if (sites) {
-          site = sites[0];
+    SiteCollection.prototype.getSiteByUrl = function(url) {
+      var sites,
+        _this = this;
+      sites = this.filter(function(site) {
+        var regex;
+        regex = site.get('regex');
+        if (!regex) {
+          return false;
         }
-        if (site && (i === 0 || site.get('opts').allowSubdomains !== false)) {
-          return site;
-        }
-        parts = parts.splice(1);
-        i++;
+        regex = new RegExp(regex, 'i');
+        regex.compile();
+        return regex.test(url);
+      });
+      if (sites.length > 1) {
+        console.warn("More than one site matched. Defaulted to the first match", sites);
       }
+      return sites[0];
     };
 
     return SiteCollection;

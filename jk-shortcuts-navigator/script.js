@@ -1,8 +1,7 @@
 // note: key library was modified to enable capture in addEventListener
 
 (function() {
-
-chrome.extension.sendMessage({action: 'getOpts', domain: document.domain}, function(site_data) {
+chrome.extension.sendMessage({action: 'getOpts', url: document.location.href}, function(site_data) {
 
     if (!site_data) { return; }
     chrome.extension.sendMessage({action: 'showPageAction'});

@@ -5,12 +5,11 @@
     chrome.extension.sendMessage({
       action: 'getOpts'
     }, function(site) {
-      console.log(site);
       if (site.enabled === void 0 || site.enabled) {
         return $('#checkbox_enabled').attr('checked', 'checked');
       }
     });
-    return $('#checkbox_enabled').click(function() {
+    $('#checkbox_enabled').click(function() {
       if ($('#checkbox_enabled').is(':checked')) {
         return chrome.extension.sendMessage({
           action: 'toggleSite',
@@ -23,14 +22,11 @@
         });
       }
     });
-});
-$(function () {
-  $('#optionslink').click(function () {
-    console.log('a');
-    chrome.tabs.create({
-            url: "options.html"
+    return $('#optionslink').click(function() {
+      return chrome.tabs.create({
+        url: "options.html"
+      });
     });
   });
-});
 
 }).call(this);

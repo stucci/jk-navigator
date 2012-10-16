@@ -3,14 +3,11 @@ withSiteResponse = (request, sender, sendResponse, site) ->
     sendResponse(site && site.toJSON())
 
   if request.action == 'showPageAction'
-    chrome.pageAction.show(sender.tab.id);
+    chrome.pageAction.show(sender.tab.id)
 
   if request.action == 'toggleSite'
     chrome.tabs.getSelected (tab) ->
-      l = document.createElement('a');
-      l.href = tab.url;
-
-      site = Sites.getSiteByDomain(l.hostname)
+      site = Sites.getSiteByUrl(tab.url)
       if site
         site.set('enabled', request.enabled)
         site.save()
@@ -19,15 +16,12 @@ withSiteResponse = (request, sender, sendResponse, site) ->
 
 
 chrome.extension.onMessage.addListener (request, sender, sendResponse) ->
-  if request.domain
-    site = Sites.getSiteByDomain(request.domain)
-    withSiteResponse(request, sender, sendResponse, site) 
+  if request.url
+    site = Sites.getSiteByUrl(request.url)
+    withSiteResponse(request, sender, sendResponse, site)
   else
     chrome.tabs.getSelected (tab) ->
-      l = document.createElement('a');
-      l.href = tab.url;
-
-      site = Sites.getSiteByDomain(l.hostname)
-      withSiteResponse(request, sender, sendResponse, site) 
+      site = Sites.getSiteByUrl(tab.url)
+      withSiteResponse(request, sender, sendResponse, site)
   return true
 
