@@ -23,6 +23,14 @@
         });
       }
     });
+});
+$(function () {
+  $('#optionslink').click(function () {
+    console.log('a');
+    chrome.tabs.create({
+            url: "options.html"
+    });
   });
+});
 
 }).call(this);
