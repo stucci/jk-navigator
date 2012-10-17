@@ -52,7 +52,7 @@ builtInSites = {
       paginator_selector_next: 'td.botpg-next a',
       paginator_selector_prev: 'td.botpg-prev a'
     },
-    regex: 'https?://(www\.)?quora\.com\/.*'
+    regex: 'https?://(www\.)?ebay\.[a-z\.]+\/.*'
   },
   'yelp': {
     opts: {
@@ -71,7 +71,7 @@ builtInSites = {
       paginator_selector_next: 'h4>span:last-of-type>a',
       paginator_selector_prev: 'h4>span:first-of-type>a'
     },
-    regex: 'https?://(\w+\.)?quora\.org\/.*'
+    regex: 'https?:\\/\\/(\w+\.)?craigslist\.org\/.*'
   },
   'linkedin': {
     opts: {
