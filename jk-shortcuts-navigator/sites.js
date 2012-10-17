@@ -21,7 +21,7 @@
         selectors: ['td.title a:nth(*)'],
         search_selector: 'center form input'
       },
-      regex: 'https?://news\.ycomabinator\.com\/.*'
+      regex: 'https?://news\.ycombinator\.com\/.*'
     },
     'quora': {
       opts: {
@@ -192,7 +192,6 @@
       if (sites.length > 1) {
         console.warn("More than one site matched. Defaulted to the first match", sites);
       }
-      console.log(sites);
       return sites[0];
     };
 

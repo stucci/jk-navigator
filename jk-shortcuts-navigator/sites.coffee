@@ -16,7 +16,7 @@ builtInSites = {
       selectors: ['td.title a:nth(*)'],
       search_selector: 'center form input'
     },
-    regex: 'https?://news\.ycomabinator\.com\/.*'
+    regex: 'https?://news\.ycombinator\.com\/.*'
   },
   'quora': {
     opts: {
@@ -155,7 +155,6 @@ class SiteCollection extends Backbone.Collection
       r = regex.test(url)
     )
     if sites.length > 1 then console.warn("More than one site matched. Defaulted to the first match", sites)
-    console.log sites
     sites[0]
 
 Sites = new SiteCollection()
