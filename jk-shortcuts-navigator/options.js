@@ -79,7 +79,7 @@
         this.model.set(values);
         this.model.save();
       }
-      if (this.$('#submittojk').val() === 'on') {
+      if (this.$('input[name=submittojk]').is(':checked')) {
         this.model.submitToJK();
       }
       this.editMode = false;

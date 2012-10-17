@@ -147,8 +147,8 @@
       return $.ajax({
         type: method,
         url: url,
-        data: JSON.stringify(json),
         processData: false,
+        data: JSON.stringify(json),
         contentType: 'application/json'
       });
     };

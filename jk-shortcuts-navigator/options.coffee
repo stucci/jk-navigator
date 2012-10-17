@@ -79,7 +79,7 @@ class SiteView extends Backbone.View
       @model.set(values)
       @model.save()
 
-    if @$('#submittojk').val() == 'on'
+    if @$('input[name=submittojk]').is(':checked') 
       @model.submitToJK()
     
     @editMode = false

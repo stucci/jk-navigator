@@ -132,8 +132,8 @@ class SiteModel extends Backbone.Model
     $.ajax({
       type:method
       url:url
+      processData: false
       data:JSON.stringify(json)
-      processData:false
       contentType:'application/json'
     })
 
