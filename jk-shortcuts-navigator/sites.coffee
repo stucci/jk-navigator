@@ -122,16 +122,17 @@ class SiteModel extends Backbone.Model
 
   submitToJK: () ->
     if @get('onlineId')
-      url = "http://http://jknavigator.herokuapp.com/api/v1/site/"+@get('onlineId')
+      url = "http://http://jknavigator.herokuapp.com/api/v1/site/"+@get('onlineId')+"/"
       method = "PUT"
     else
       url = "http://jknavigator.herokuapp.com/api/v1/site/"
       method = "POST"
-    json = _.pick(@.attributes, ['site'])
+    json = _.pick(@.attributes, ['site', 'regex'])
+    json['opts'] = @getOpts()
     $.ajax({
       type:method
       url:url
-      data:json
+      data:JSON.stringify(json)
     })
 
 class SiteCollection extends Backbone.Collection

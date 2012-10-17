@@ -136,17 +136,18 @@
     SiteModel.prototype.submitToJK = function() {
       var json, method, url;
       if (this.get('onlineId')) {
-        url = "http://http://jknavigator.herokuapp.com/api/v1/site/" + this.get('onlineId');
+        url = "http://http://jknavigator.herokuapp.com/api/v1/site/" + this.get('onlineId') + "/";
         method = "PUT";
       } else {
         url = "http://jknavigator.herokuapp.com/api/v1/site/";
         method = "POST";
       }
-      json = _.pick(this.attributes, ['site']);
+      json = _.pick(this.attributes, ['site', 'regex']);
+      json['opts'] = this.getOpts();
       return $.ajax({
         type: method,
         url: url,
-        data: json
+        data: JSON.stringify(json)
       });
     };
 
