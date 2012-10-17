@@ -71,7 +71,7 @@ builtInSites = {
       paginator_selector_next: 'h4>span:last-of-type>a',
       paginator_selector_prev: 'h4>span:first-of-type>a'
     },
-    regex: 'https?:\\/\\/(\w+\.)?craigslist\.org\/.*'
+    regex: 'https?:\/\/(.*\.|)craigslist.org/.*'
   },
   'linkedin': {
     opts: {
