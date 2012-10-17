@@ -143,11 +143,13 @@
         method = "POST";
       }
       json = _.pick(this.attributes, ['site', 'regex']);
-      json['opts'] = this.getOpts();
+      json['opts'] = this.attributes['opts'];
       return $.ajax({
         type: method,
         url: url,
-        data: JSON.stringify(json)
+        data: JSON.stringify(json),
+        processData: false,
+        contentType: 'application/json'
       });
     };
 

@@ -128,11 +128,13 @@ class SiteModel extends Backbone.Model
       url = "http://jknavigator.herokuapp.com/api/v1/site/"
       method = "POST"
     json = _.pick(@.attributes, ['site', 'regex'])
-    json['opts'] = @getOpts()
+    json['opts'] = @attributes['opts']
     $.ajax({
       type:method
       url:url
       data:JSON.stringify(json)
+      processData:false
+      contentType:'application/json'
     })
 
 class SiteCollection extends Backbone.Collection
