@@ -1,9 +1,9 @@
 builtInSites = {
   'google': {
     opts: {
-      selectors: ['h3.r>a:nth(*)'],
+      selectors: [ '.rc>.r>a:not(.fl):nth(*)' ],
       allowSubdomains: false,
-      search_selector: '#gbqfq',
+      search_selector: '.gLFyf.gsfi',
       paginator_selector_next: 'a#pnnext.pn',
       paginator_selector_prev: 'a#pnprev.pn',
       liveUpdateElement: '#main'

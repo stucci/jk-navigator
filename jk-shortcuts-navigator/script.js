@@ -31,7 +31,7 @@ chrome.extension.sendMessage({action: 'getOpts', url: document.location.href}, f
             }
             $(previousSelection).css('background-color', 'inherit');
         }
-        link.css('background-color', '#fcc');
+        // link.css('background-color', '#fcc');
         if (focus) { link.focus(); }
         previousSelection = link.get()[0];
         return link;
@@ -233,9 +233,9 @@ chrome.extension.sendMessage({action: 'getOpts', url: document.location.href}, f
                 open_link(ev, true);
             }));
 
-            key('o', wrap(function(ev) {
-                open_link(ev, false, true);
-            }));
+            // key('o', wrap(function(ev) {
+            //     open_link(ev, false, true);
+            // }));
 
             key('i', wrap(function(ev) {
                 if (group_selector) {
